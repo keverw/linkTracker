@@ -59,21 +59,18 @@
 
 			<div id="content">
 				<?php
-					//todo: Check if installed...
-					
-					$isInstalled = false;
-					
-					//check if config file exists
-					
-					if ($isInstalled)
+					if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/system/config.php'))
 					{
-						//Do upgrade logic here
+						//check if installed
+						
+						//if installed - do upgrade logic, 
+						//else go to install step two
 					}
 					else
 					{
-						//Do install logic here
 						require_once $_SERVER['DOCUMENT_ROOT'] . '/system/installer/installStep1.php';
-					}	
+					}
+					
 				?>
 			</div>
 
