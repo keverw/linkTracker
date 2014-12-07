@@ -4,6 +4,12 @@
 		return htmlentities($str);
 	}
 	
+	function redirect($url)
+	{
+		header('Location: ' . $url);
+		die();
+	}
+	
 	function cleanMySQLVersion($ver)
 	{
 		//brrowed from YOURLS

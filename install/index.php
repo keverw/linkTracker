@@ -3,6 +3,12 @@
 	session_start();
 	require_once $_SERVER['DOCUMENT_ROOT'] . '/system/helpers.php';
 	require_once $_SERVER['DOCUMENT_ROOT'] . '/system/PastaDB.php';
+	
+	function killInstaller()
+	{
+		//todo: write this function later!
+		return false;
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,7 +67,50 @@
 				<?php
 					if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/system/config.php'))
 					{
-						//check if installed
+						require_once $_SERVER['DOCUMENT_ROOT'] . '/system/config.php';
+						
+						$db = new PastaDB();
+						
+						if ($db->connect($dbHost, $dbUser, $dbPass, $dbName))
+						{
+							//check if installed - check if options database table exists
+							if ($result = $db->select("show tables like 'options';"))
+							{
+								if ($db->numRows > 0)
+								{
+									//this is the very first version, so obviously there wouldn't be any upgrades.
+									echo '<b>No Upgrades available. The installer will self destruct.</b>';
+									
+									if (killInstaller())
+									{
+										redirect('/install'); //will 404 :)
+									}
+									else
+									{
+										?>
+											<br><br><br><b>Self destruct failed. Please manually delete this folder.</b>
+										<?php
+									}
+									
+								}
+								else //go to install step 2
+								{
+									require_once $_SERVER['DOCUMENT_ROOT'] . '/system/installer/installStep2.php';
+								}
+								
+							}
+							else
+							{
+								die('Database Error (' . $db->errorNum . ') ' . $db->error); 
+							}
+							
+						}
+						else
+						{
+							?>
+								<div class="alert alert-danger" role="alert">Could not connect to the database. Connect Error: (<?=$db->errorNum?>) <?$db->error?></div>
+							<?php
+						}
 						
 						//if installed - do upgrade logic, 
 						//else go to install step two
@@ -70,7 +119,6 @@
 					{
 						require_once $_SERVER['DOCUMENT_ROOT'] . '/system/installer/installStep1.php';
 					}
-					
 				?>
 			</div>
 
