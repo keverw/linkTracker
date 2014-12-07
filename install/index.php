@@ -1,3 +1,9 @@
+<?php
+	ob_start();
+	session_start();
+	require_once $_SERVER['DOCUMENT_ROOT'] . '/system/helpers.php';
+	require_once $_SERVER['DOCUMENT_ROOT'] . '/system/PastaDB.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -35,27 +41,43 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="#">Project name</a>
+					<a class="navbar-brand" href="#">linkTracker Installer</a>
 				</div>
-				<div id="navbar" class="collapse navbar-collapse">
+				<!--
+<div id="navbar" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav">
 						<li class="active"><a href="#">Home</a></li>
 						<li><a href="#about">About</a></li>
 						<li><a href="#contact">Contact</a></li>
 					</ul>
 				</div><!--/.nav-collapse -->
+-->
 			</div>
 		</nav>
 
 		<div class="container">
 
-			<div class="starter-template">
-				<h1>Bootstrap starter template</h1>
-				<p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+			<div id="content">
+				<?php
+					//todo: Check if installed...
+					
+					$isInstalled = false;
+					
+					//check if config file exists
+					
+					if ($isInstalled)
+					{
+						//Do upgrade logic here
+					}
+					else
+					{
+						//Do install logic here
+						require_once $_SERVER['DOCUMENT_ROOT'] . '/system/installer/installStep1.php';
+					}	
+				?>
 			</div>
 
 		</div><!-- /.container -->
-
 
 		<!-- Bootstrap core JavaScript
 		================================================== -->
