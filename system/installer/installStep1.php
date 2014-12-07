@@ -51,6 +51,69 @@
 					
 				//write config file and prompt set two
 				
+				//check to see if the sample config file exists
+				if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/system/installer/config-sample.php'))
+				{
+					if (is_writable($_SERVER['DOCUMENT_ROOT'] . '/system'))
+					{
+						if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/system/config.php'))
+						{
+							?>
+								<div class="alert alert-danger" role="alert"><code>/system/config.php</code> already exists.</div>
+							<?php
+						}
+						else
+						{
+							$configFile = file($_SERVER['DOCUMENT_ROOT'] . '/system/installer/config-sample.php');
+							
+							$handle = fopen($_SERVER['DOCUMENT_ROOT'] . '/system/config.php', 'w');
+							
+							foreach ($configFile as $line_num => $line)
+							{
+								$var = substr(trim($line),0,7);
+								
+								if ($var == '$dbHost')
+								{
+									fwrite($handle, str_replace("localhost", $dbHostPost, $line));
+								}
+								else if ($var == '$dbUser')
+								{
+									fwrite($handle, str_replace("'UserNameHere'", "'$dbUserPost'", $line));
+								}
+								else if ($var == '$dbPass')
+								{
+									fwrite($handle, str_replace("'PassHere'", "'$dbPassPost'", $line));
+								}
+								else if ($var == '$dbName')
+								{
+									fwrite($handle, str_replace("DatabaseNameHere", $dbNamePost, $line));
+								}
+								else
+								{
+									fwrite($handle, $line);
+								}
+								
+							}
+
+							
+						}
+						
+					}
+					else
+					{
+						?>
+							<div class="alert alert-danger" role="alert">Cannot write to the <code>/system</code> directory.</div>
+						<?php
+					}
+					
+				}
+				else
+				{
+					?>
+						<div class="alert alert-danger" role="alert"><b>Sample config file is missing:</b> <code>/system/installer/config-sample.php</code> is missing.</div>
+					<?php
+				}
+				
 				
 			}
 			else
