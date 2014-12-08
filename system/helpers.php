@@ -10,6 +10,29 @@
 		die();
 	}
 	
+	function getCurrentDBVersion()
+	{
+		return 1;
+	}
+	
+	function writeEventLog(&$pdbh, $user, $msg)
+	{
+		if ($result = $pdbh->insert('eventLog', array(
+			'user' => $user,
+			'ip' => $_SERVER['REMOTE_ADDR'],
+			'date' => time(),
+			'msg' => $msg
+		)))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+
+	}
+	
 	function cleanMySQLVersion($ver)
 	{
 		//brrowed from YOURLS

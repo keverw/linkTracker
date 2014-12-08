@@ -3,6 +3,9 @@
 	session_start();
 	require_once $_SERVER['DOCUMENT_ROOT'] . '/system/helpers.php';
 	require_once $_SERVER['DOCUMENT_ROOT'] . '/system/PastaDB.php';
+	require_once $_SERVER['DOCUMENT_ROOT'] . '/system/validator.php';
+	require_once $_SERVER['DOCUMENT_ROOT'] . '/system/bcrypt.php';
+	require_once $_SERVER['DOCUMENT_ROOT'] . '/system/keyValueStore.php';
 	
 	function killInstaller()
 	{
@@ -41,12 +44,14 @@
 		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<!--
+<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
 						<span class="sr-only">Toggle navigation</span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
+-->
 					<a class="navbar-brand" href="#">linkTracker Installer</a>
 				</div>
 				<!--
@@ -112,8 +117,6 @@
 							<?php
 						}
 						
-						//if installed - do upgrade logic, 
-						//else go to install step two
 					}
 					else
 					{
